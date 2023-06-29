@@ -1,4 +1,8 @@
-// File to try gravity simulator
+/*
+    Largely translated from the Go version by Phillip Compeau, from the
+        lecture and implementation:
+        https://compeau.cbd.cmu.edu/programming-for-lovers/chapter-4/
+*/
 
 import gl
 import color
@@ -47,12 +51,10 @@ struct Universe:
 
     // get the next acceleration value for a body
     def nextAccel(b: Body) -> xy_f:
-        // print netForceOn(b) / b.mass
         return netForceOn(b) / b.mass
 
     // get the next velocity for a body after a change in time
     def nextVelocity(b: Body, t: float) -> xy_f:
-        // print b.velocity + b.accel * t
         return b.velocity + b.accel * t
 
     // get the next position for a body after a change in time
@@ -62,10 +64,9 @@ struct Universe:
     // get the next universe after a time
     def next(t: float) -> Universe:
         let newUniverse = Universe {
-            bodies : deepcopy(bodies, 2), // not sure how deep to do this
+            bodies : deepcopy(bodies, 2),
             width  : width
         }
-        // print(newUniverse.bodies[1])
 
         for(bodies) b, i:
             newUniverse.bodies[i].accel    = nextAccel(b)
@@ -153,8 +154,6 @@ var universe = Universe {
 
 // Graphics
 let t_fidelity: float = 60.
-// let t_tick    : float = 3600.
-// let reps      : int   = int(t_tick / t_fidelity)
 let reps: int = 10
 let WINDOW_WIDTH = 500
 var play = true
@@ -172,7 +171,3 @@ while gl_frame():
 
     if gl_button("space") == 1:
         play = not play
-
-    // for now, user ticks time with t = 1
-    // if gl_button("right") >= 1:
-    //     universe = universe.tick(t_fidelity, reps)
